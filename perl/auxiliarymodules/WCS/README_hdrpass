@@ -1,0 +1,30 @@
+
+
+hdr pass bug:
+
+need to set some libwcs global variable. 
+
+work around: feed a dumy fits file in wcs_call.c:
+
+    char * fntest = "ngc6302.fits";
+    header = GetFITShead (fntest, verbose);
+
+GetFITShead: in fitswcs.c
+
+then  L124 in fitswcs.c calls 
+
+       if ((header = fitsrhead (filename, &lhead, &nbfits)) == NULL) {
+
+if this block is commented make test breaks (see also fitswcs_simon.c L127) :
+
+printf("ANCHOR 10000 in GetFITShead if comment this block make test breaks 2 May 2009 \n");
+      // fitsrhead in fitsfile.c L107
+      // fitsrhead in fitsfile.c L107
+       if ((header = fitsrhead (filename, &lhead, &nbfits)) == NULL) {
+ 	    if (verbose)
+ 	      /* fprintf (stderr, "Cannot read FITS file %s\n", filename); */
+ 	      fitserr ();
+ 	    return (NULL);
+ 	    }
+ 
+    }

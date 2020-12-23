@@ -1,0 +1,390 @@
+imx 101.693
+imy 234.931
+HEADER PASS in wcs_call.c >>>>>>>>>>>>>>>>>>>
+SIMPLE  =                     1 /                                               BITPIX  =                   -32 /                                               NAXIS   =                     2 /                                               NAXIS1  =                   300 /                                               NAXIS2  =                   300 /                                               CRVAL1  =    37.954514999999994 /                                               CRVAL2  =     89.26410900000005 /                                               RADESYS =                   FK5 /                                               EQUINOX =                2000.0 /                                               CTYPE1  =              RA---TAN /                                               CTYPE2  =              DEC--TAN /                                               CRPIX1  =                 150.5 /                                               CRPIX2  =                 150.5 /                                               CDELT1  =     -0.01666666666667 /                                               CDELT2  =  0.016666666666666666 /                                               COMMENT =                       /                                               SURVEY  =                  NVSS /                                               TELESCOP=                   VLA /                                               INSTRUME=                L-BAND /                                               OBSERVER=              NVSS GRP /                                               BUNIT   =               JY/BEAM /                                               HISTORY                                                                         END                                                                             
+^^^^^^^^^HEADER PASS in wcs_call.c ^^^^^^^^^^^^^^^^^^^^
+HEADER PASS PASSED
+imx 101.693
+imy 234.931
+
+
+
+
+######################################################################
+
+
+
+
+[io:~/perl/pdlC/WCS_dev/]% valgrind ttest 
+==20394== Memcheck, a memory error detector.
+==20394== Copyright (C) 2002-2007, and GNU GPL'd, by Julian Seward et al.
+==20394== Using LibVEX rev 1804, a library for dynamic binary translation.
+==20394== Copyright (C) 2004-2007, and GNU GPL'd, by OpenWorks LLP.
+==20394== Using valgrind-3.3.0, a dynamic binary instrumentation framework.
+==20394== Copyright (C) 2000-2007, and GNU GPL'd, by Julian Seward et al.
+==20394== For more details, rerun with: -v
+==20394== 
+==20394== Invalid write of size 1
+==20394==    at 0x4024BF7: memcpy (mc_replace_strmem.c:402)
+==20394==    by 0x80495F9: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023836: index (mc_replace_strmem.c:160)
+==20394==    by 0x80645B4: isiraf (imhfile.c:1812)
+==20394==    by 0x80503A9: GetFITShead (fitswcs.c:95)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023A03: strlen (mc_replace_strmem.c:242)
+==20394==    by 0x806651C: strsrch (hget.c:1375)
+==20394==    by 0x80645D4: isiraf (imhfile.c:1814)
+==20394==    by 0x80503A9: GetFITShead (fitswcs.c:95)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023836: index (mc_replace_strmem.c:160)
+==20394==    by 0x807ABFC: istiff (fileutil.c:423)
+==20394==    by 0x805048B: GetFITShead (fitswcs.c:113)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023A03: strlen (mc_replace_strmem.c:242)
+==20394==    by 0x806651C: strsrch (hget.c:1375)
+==20394==    by 0x807AC1F: istiff (fileutil.c:427)
+==20394==    by 0x805048B: GetFITShead (fitswcs.c:113)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023A03: strlen (mc_replace_strmem.c:242)
+==20394==    by 0x806651C: strsrch (hget.c:1375)
+==20394==    by 0x807AC36: istiff (fileutil.c:427)
+==20394==    by 0x805048B: GetFITShead (fitswcs.c:113)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023A03: strlen (mc_replace_strmem.c:242)
+==20394==    by 0x806651C: strsrch (hget.c:1375)
+==20394==    by 0x807AC4D: istiff (fileutil.c:427)
+==20394==    by 0x805048B: GetFITShead (fitswcs.c:113)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023A03: strlen (mc_replace_strmem.c:242)
+==20394==    by 0x806651C: strsrch (hget.c:1375)
+==20394==    by 0x807AC64: istiff (fileutil.c:427)
+==20394==    by 0x805048B: GetFITShead (fitswcs.c:113)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Syscall param open(filename) points to unaddressable byte(s)
+==20394==    at 0x40007F2: (within /lib/ld-2.6.1.so)
+==20394==    by 0x805048B: GetFITShead (fitswcs.c:113)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023836: index (mc_replace_strmem.c:160)
+==20394==    by 0x807AEBB: isgif (fileutil.c:508)
+==20394==    by 0x805049A: GetFITShead (fitswcs.c:113)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023A03: strlen (mc_replace_strmem.c:242)
+==20394==    by 0x806651C: strsrch (hget.c:1375)
+==20394==    by 0x807AEDE: isgif (fileutil.c:512)
+==20394==    by 0x805049A: GetFITShead (fitswcs.c:113)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023A03: strlen (mc_replace_strmem.c:242)
+==20394==    by 0x806651C: strsrch (hget.c:1375)
+==20394==    by 0x807AEF5: isgif (fileutil.c:512)
+==20394==    by 0x805049A: GetFITShead (fitswcs.c:113)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Syscall param open(filename) points to unaddressable byte(s)
+==20394==    at 0x40007F2: (within /lib/ld-2.6.1.so)
+==20394==    by 0x805049A: GetFITShead (fitswcs.c:113)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023836: index (mc_replace_strmem.c:160)
+==20394==    by 0x807AD48: isjpeg (fileutil.c:464)
+==20394==    by 0x80504A9: GetFITShead (fitswcs.c:113)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023A03: strlen (mc_replace_strmem.c:242)
+==20394==    by 0x806651C: strsrch (hget.c:1375)
+==20394==    by 0x807AD6B: isjpeg (fileutil.c:468)
+==20394==    by 0x80504A9: GetFITShead (fitswcs.c:113)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023A03: strlen (mc_replace_strmem.c:242)
+==20394==    by 0x806651C: strsrch (hget.c:1375)
+==20394==    by 0x807AD86: isjpeg (fileutil.c:468)
+==20394==    by 0x80504A9: GetFITShead (fitswcs.c:113)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023A03: strlen (mc_replace_strmem.c:242)
+==20394==    by 0x806651C: strsrch (hget.c:1375)
+==20394==    by 0x807ADA1: isjpeg (fileutil.c:468)
+==20394==    by 0x80504A9: GetFITShead (fitswcs.c:113)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023A03: strlen (mc_replace_strmem.c:242)
+==20394==    by 0x806651C: strsrch (hget.c:1375)
+==20394==    by 0x807ADB8: isjpeg (fileutil.c:468)
+==20394==    by 0x80504A9: GetFITShead (fitswcs.c:113)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023A03: strlen (mc_replace_strmem.c:242)
+==20394==    by 0x806651C: strsrch (hget.c:1375)
+==20394==    by 0x807ADCF: isjpeg (fileutil.c:468)
+==20394==    by 0x80504A9: GetFITShead (fitswcs.c:113)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023A03: strlen (mc_replace_strmem.c:242)
+==20394==    by 0x806651C: strsrch (hget.c:1375)
+==20394==    by 0x807ADE6: isjpeg (fileutil.c:468)
+==20394==    by 0x80504A9: GetFITShead (fitswcs.c:113)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023A03: strlen (mc_replace_strmem.c:242)
+==20394==    by 0x806651C: strsrch (hget.c:1375)
+==20394==    by 0x807ADFD: isjpeg (fileutil.c:468)
+==20394==    by 0x80504A9: GetFITShead (fitswcs.c:113)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023A03: strlen (mc_replace_strmem.c:242)
+==20394==    by 0x806651C: strsrch (hget.c:1375)
+==20394==    by 0x807AE14: isjpeg (fileutil.c:468)
+==20394==    by 0x80504A9: GetFITShead (fitswcs.c:113)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Syscall param open(filename) points to unaddressable byte(s)
+==20394==    at 0x40007F2: (within /lib/ld-2.6.1.so)
+==20394==    by 0x80504A9: GetFITShead (fitswcs.c:113)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023836: index (mc_replace_strmem.c:160)
+==20394==    by 0x805D17C: fitsrhead (fitsfile.c:143)
+==20394==    by 0x8050514: GetFITShead (fitswcs.c:124)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023836: index (mc_replace_strmem.c:160)
+==20394==    by 0x805D1A5: fitsrhead (fitsfile.c:149)
+==20394==    by 0x8050514: GetFITShead (fitswcs.c:124)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023836: index (mc_replace_strmem.c:160)
+==20394==    by 0x805D1C1: fitsrhead (fitsfile.c:151)
+==20394==    by 0x8050514: GetFITShead (fitswcs.c:124)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023836: index (mc_replace_strmem.c:160)
+==20394==    by 0x805ED36: fitsropen (fitsfile.c:965)
+==20394==    by 0x805D232: fitsrhead (fitsfile.c:166)
+==20394==    by 0x8050514: GetFITShead (fitswcs.c:124)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023836: index (mc_replace_strmem.c:160)
+==20394==    by 0x805ED4C: fitsropen (fitsfile.c:968)
+==20394==    by 0x805D232: fitsrhead (fitsfile.c:166)
+==20394==    by 0x8050514: GetFITShead (fitswcs.c:124)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023836: index (mc_replace_strmem.c:160)
+==20394==    by 0x805ED6F: fitsropen (fitsfile.c:971)
+==20394==    by 0x805D232: fitsrhead (fitsfile.c:166)
+==20394==    by 0x8050514: GetFITShead (fitswcs.c:124)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Syscall param open(filename) points to unaddressable byte(s)
+==20394==    at 0x40007F2: (within /lib/ld-2.6.1.so)
+==20394==    by 0x805D232: fitsrhead (fitsfile.c:166)
+==20394==    by 0x8050514: GetFITShead (fitswcs.c:124)
+==20394==    by 0x8049190: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023836: index (mc_replace_strmem.c:160)
+==20394==    by 0x804AA7B: ChangeFITSWCS (imgetwcs.c:388)
+==20394==    by 0x804973D: GetFITSWCS (imgetwcs.c:97)
+==20394==    by 0x80491EB: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x804963C: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x4199039 is 0 bytes after a block of size 17 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x80494AB: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+imx 101.693
+imy 234.931
+==20394== 
+==20394== Invalid write of size 1
+==20394==    at 0x4024BF7: memcpy (mc_replace_strmem.c:402)
+==20394==    by 0x804920E: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x80496D2: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x41ac050 is 0 bytes after a block of size 8 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x804915B: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x80496D2: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+HEADER PASS in wcs_call.c >>>>>>>>>>>>>>>>>>>
+SIMPLE  =                     1 /                                               BITPIX  =                   -32 /                                               NAXIS   =                     2 /                                               NAXIS1  =                   300 /                                               NAXIS2  =                   300 /                                               CRVAL1  =    37.954514999999994 /                                               CRVAL2  =     89.26410900000005 /                                               RADESYS =                   FK5 /                                               EQUINOX =                2000.0 /                                               CTYPE1  =              RA---TAN /                                               CTYPE2  =              DEC--TAN /                                               CRPIX1  =                 150.5 /                                               CRPIX2  =                 150.5 /                                               CDELT1  =     -0.01666666666667 /                                               CDELT2  =  0.016666666666666666 /                                               COMMENT =                       /                                               SURVEY  =                  NVSS /                                               TELESCOP=                   VLA /                                               INSTRUME=                L-BAND /                                               OBSERVER=              NVSS GRP /                                               BUNIT   =               JY/BEAM /                                               HISTORY                                                                         END                                                                             
+^^^^^^^^^HEADER PASS in wcs_call.c ^^^^^^^^^^^^^^^^^^^^
+==20394== 
+==20394== Invalid read of size 1
+==20394==    at 0x4023836: index (mc_replace_strmem.c:160)
+==20394==    by 0x804AA7B: ChangeFITSWCS (imgetwcs.c:388)
+==20394==    by 0x804973D: GetFITSWCS (imgetwcs.c:97)
+==20394==    by 0x8049285: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x80496D2: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==  Address 0x41ac050 is 0 bytes after a block of size 8 alloc'd
+==20394==    at 0x4021BFE: calloc (vg_replace_malloc.c:397)
+==20394==    by 0x804915B: proj (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+==20394==    by 0x80496D2: main (in /io/home/simon/perl/pdlC/WCS_dev/ttest)
+HEADER PASS PASSED
+imx 101.693
+imy 234.931
+==20394== 
+==20394== ERROR SUMMARY: 33 errors from 33 contexts (suppressed: 5 from 1)
+==20394== malloc/free: in use at exit: 70,007 bytes in 20 blocks.
+==20394== malloc/free: 201 allocs, 181 frees, 79,199 bytes allocated.
+==20394== For counts of detected errors, rerun with: -v
+==20394== searching for pointers to 20 not-freed blocks.
+==20394== checked 70,080 bytes.
+==20394== 
+==20394== LEAK SUMMARY:
+==20394==    definitely lost: 70,007 bytes in 20 blocks.
+==20394==      possibly lost: 0 bytes in 0 blocks.
+==20394==    still reachable: 0 bytes in 0 blocks.
+==20394==         suppressed: 0 bytes in 0 blocks.
+==20394== Rerun with --leak-check=full to see details of leaked memory.
+[io:~/perl/pdlC/WCS_dev/]% 

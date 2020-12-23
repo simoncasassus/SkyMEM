@@ -1,0 +1,73 @@
+pp_bless('Mem');
+
+pp_addhdr('
+#include <math.h>
+
+#include "FUNC.c"
+extern double my_f(double*,int*);
+');     
+
+
+pp_addpm('
+sub testf{	
+ 	my ($x,$f) = @_;	
+	testf_meat($x,$out,$f);
+        return $x_out;
+}
+');
+
+
+pp_def('testf_meat',
+        Pars => 'double xfree(n); double [o] out;',
+        OtherPars => 'SV* funcion;',
+        Docs => undef,
+        Code =>'
+int status;
+int n;
+n = $SIZE(n);
+ext_funname1 = $COMP(funcion);
+$P(out) = my_f($P(xfree),&n); ');  
+
+
+pp_addpm({At=>Top},<<'EOD');       
+
+=head1 NAME
+                                                                    
+Vor  -- voronoi diagram generation for PDL
+                                                                                
+=head1 DESCRIPTION
+                                                                      
+This package provides an image generation routine based on a Voronoi mesh.
+
+=head1 SYNOPSIS                                      
+            
+   use PDL;
+   use Vor;
+         
+=head1 FUNCTIONS
+
+=head2 mkim()
+
+$xcel and $ycel are the coordinates of the voronoi cell centers, constrained to  [0,1].
+
+=for usage
+
+Usage:
+   
+   $im = Vor::mkim($nx,$ny,$icel); 
+
+=for ref
+
+=head1 SEE ALSO
+
+
+ .....
+
+=head1 AUTHOR
+
+
+=cut
+
+EOD
+
+pp_done();

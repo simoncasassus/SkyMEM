@@ -1,0 +1,9 @@
+PARA COMPILAR:
+
+gcc -Wall -I/usr/local/include/ -c prueba.c
+gcc -L/usr/local/lib prueba.o -lgsl -lgslcblas -lm
+
+
+
+GSLMIN:  ADITION BY SIMON TO CONTROL CONVERGENCE BY VALUE
+GSLMIN_ori: only gradient control, as perl GSL default
