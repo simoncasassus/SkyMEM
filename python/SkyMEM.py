@@ -34,7 +34,7 @@ def exec_prep_files(ZM):
     os.system("mkdir "+ZM.workdir)
 
     datapass=ZM.datapass
-    reffield=ZM.datapass[ZM.ifieldref]
+    reffield=ZM.datafieldref # datapass[ZM.ifieldref]
     
     hdu0_fieldref = fits.open(reffield['image'])
     hdu1_fieldref = slice0(hdu0_fieldref,ReturnHDUList=True)
@@ -51,7 +51,7 @@ def exec_prep_files(ZM):
     ZM.rstor_head= reffield['rstorheader']
     beam_deg2 = (np.pi/(4.*np.log(2.)))*(hrstor['BMAJ']*hrstor['BMIN'])
     ZM.beam_deg2=beam_deg2
-    ZM.pixscale=(hrstor['CDELT2']**2)
+    ZM.pixscale=hrstor['CDELT2']
     
     sensmos=np.zeros(ZM.canvas_shape)
     
@@ -63,7 +63,6 @@ def exec_prep_files(ZM):
 
         hdu0=slice0(fits.open(afield['sens']),ReturnHDUList=True)
         sens0=np.double(hdu0[0].data)
-        #Vtools.View(sens0)
         
 
         sens0[np.isnan(sens0)]=-1
@@ -88,9 +87,10 @@ def exec_prep_files(ZM):
         #PB=hdu1[0].data
         PB/=np.max(PB)
 
-        print("origin PB")
-        Vtools.View(PB)
-        PBextend=True
+        if ZM.ViewInit:
+            print("original PB")
+            Vtools.View(PB)
+        
         if ZM.GaussPB:
             hdr_sens=hdu0[0].header
             (nx,ny)=sens0.shape
@@ -102,19 +102,22 @@ def exec_prep_files(ZM):
             GaussPB0=np.exp(-0.5*(rrs**2/stdev**2))
             hdu0[0].data=GaussPB0
             hdu1=gridding(hdu0,hcanvas,ReturnHDUList=True)
-            if PBextend:
+            if ZM.PBextend:
                 PB1=hdu1[0].data
+                if (ZM.pbcutoff <= 0.):
+                    sys.exit("need a pbcutoff to extend the PB")
                 continuityvalue=np.min(PB[(PB>1./ZM.pbcutoff)])
                 continuityvalue1=np.min(PB1[(PB>1./ZM.pbcutoff)])
                 #continuityvalue=np.max(PB[(PB<=1./ZM.pbcutoff)])
                 #continuityvalue1=np.max(PB1[(PB<=1./ZM.pbcutoff)])
-                print("continuityvalue",continuityvalue)
-                print("continuityvalue1",continuityvalue1)
+                #print("continuityvalue",continuityvalue)
+                #print("continuityvalue1",continuityvalue1)
                 PB[(PB <= 1./ZM.pbcutoff)]=continuityvalue*PB1[(PB <= 1./ZM.pbcutoff)]/continuityvalue1
             else:
                 PB=hdu1[0].data
-            print("Gauss PB")
-            Vtools.View(PB)
+            if ZM.ViewInit:
+                print("Gauss PB")
+                Vtools.View(PB)
                 
         
         fits.writeto(ZM.workdir+"PB_"+os.path.basename(afield['image']),PB,hrstor,overwrite=True)
@@ -132,9 +135,16 @@ def exec_prep_files(ZM):
         hdu0=slice0(fits.open(afield['psf']),ReturnHDUList=True)
         psf=hdu0[0].data
         afield['data_psf']=np.double(psf)
-        #knorm = ZM.beam_deg2/(ZM.pixscale**2)
-        knorm=np.sum(psf)
+        
+        knorm = ZM.beam_deg2/(ZM.pixscale**2)  # inherited from multimem.pl
         kernel = (psf / knorm)
+
+        ### IMPORTANT KERNEL NORMALIZATION IS NOT knorm=np.sum(psf) BECAUSE THIS IS NOT SMOOTHING. THE CORRECT NORMALIZATION DERIVES FROM THE DIRTY MAP AND DIRTY BEAM FORMULAE. 
+
+        if ZM.ViewInit:
+            print("kernel")
+            Vtools.View(kernel)
+            
         afield['kernel']=np.double(kernel)
 
         
@@ -161,6 +171,8 @@ def exec_prep_files(ZM):
         hdu1=gridding(hdu0,hcanvas,ReturnHDUList=True)
         im_prior=hdu1[0].data
         ZM.data_prior=im_prior
+
+
         
     
 
@@ -324,13 +336,14 @@ def run_scipy_optimize_minimize(ZM):
     #method='BFGS'
     #method='L-BFGS-B'
     method=ZM.scipy_optimize_method
-    op.show_options(solver="minimize", method=method)
+    if ZM.VerboseInit:
+        op.show_options(solver="minimize", method=method)
     bounds=None
     if (method=='CG'):
         options={'gtol': 1e-05, 'norm': np.inf, 'eps': 1.4901161193847656e-08, 'maxiter': 1000, 'disp': True, 'return_all': False, 'finite_diff_rel_step': None}
     elif (method=='Newton-CG'):
-        options={'disp':True,'xtol':1e-5,'maxiter':500,'eps':1e-8,'return_all':False}
-    elif (method=='BFGS'):
+        options={'disp':True,'xtol':6e-7,'maxiter':100,'eps':1e-8,'return_all':False}
+    elif (method=='BFGS'): ## broken in scipy
         options={'disp': True, 'maxiter': 100, 'gtol': 1e-05, 'norm': 1., 'eps': 1e-08, 'return_all': False, 'finite_diff_rel_step': None}
     elif (method=='L-BFGS-B'):
         options={'disp': True, 'maxcor': 10, 'ftol': 2.220446049250313e-09, 'gtol': 1e-05, 'eps': 1e-08, 'maxfun': 15000, 'maxiter': 1000, 'iprint': - 1, 'maxls': 20, 'finite_diff_rel_step': None}
@@ -438,17 +451,19 @@ class Setup():
     def __init__(self,
                  datapass=[],
                  prior=False, # pass string
-                 ifieldref=0,
+                 datafieldref=False, # pass a dictionary
                  pbcutoff=20.,
-                 GaussPB=True,
+                 GaussPB=True, # replace input PB with Gaussian
+                 PBextend=True, # extend input PB with Gaussian or replace with Gaussian
                  minpix=0.,
                  lambdaS=0.,
                  VerboseInit=True,
                  workdir='ouput/',
                  doclip=True,
                  scipy_optimize_method='CG',
-                 DoGSL=False,
+                 DoGSL=False,  ## broken in pygsl
                  View=False, # view intermediate results
+                 ViewInit=False, # view mosaic setup
                  ):
         
         initlocals=locals()
@@ -461,6 +476,8 @@ class Setup():
         if (scipy_optimize_method=='L-BFGS-B'):
             self.doclip=False
 
+        if (not datafieldref):
+            self.datafieldref=datapass[0]
             
         self.data_prior=False
         self.canvas_shape=[0,0]
@@ -472,7 +489,6 @@ class Setup():
         self.xfree=False
         self.iterdf=0
         self.modout=False
-        
         
     def prep_files(self):
         return exec_prep_files(self)
