@@ -428,13 +428,13 @@ void conjgrad (double *xfree, int  *nelem, double *out, double *stepsize, double
   // printf ("ANCHOR \n");
   // printf ("IN TEST6: nelem = %d \n", *nelem);
 
-  my_func.f = &my_f;
+  my_func.f = my_f;
 
   // printf ("ANCHOR \n");
   // printf ("IN TEST7: nelem = %d \n", *nelem);
 
-  my_func.df = &my_df;
-  my_func.fdf = &my_fdf;
+  my_func.df = my_df;
+  my_func.fdf = my_fdf;
 
  //  printf ("ANCHOR \n");
  //  printf ("IN TEST8: nelem = %d \n", *nelem);
@@ -448,7 +448,7 @@ void conjgrad (double *xfree, int  *nelem, double *out, double *stepsize, double
 
 
 
-  my_func.params = &par;
+  my_func.params = par;
 
 //  printf ("ANCHOR \n");
 //  printf ("IN TEST9: nelem = %d \n", *nelem);
@@ -486,6 +486,7 @@ void conjgrad (double *xfree, int  *nelem, double *out, double *stepsize, double
   
   printf ("ANCHOR \n");
   printf ("IN TEST12: nelem = %d \n", *nelem);
+  printf ("IN TEST12: stepsize linmintol = %f %f \n", *stepsize, *linmintol);
 
   gsl_multimin_fdfminimizer_set (s, &my_func, x, *stepsize, *linmintol);
  
@@ -529,16 +530,16 @@ void conjgrad (double *xfree, int  *nelem, double *out, double *stepsize, double
     if (status == GSL_CONTINUE) {
       //      printf("TESTING VALUE FOR TOL %e \n",1E-6);
       if (fprev == 0) {
-//	if (s->f == 0) {
-//	  status = GSL_SUCCESS;  // ADITION BY SIMON TO CONTROL CONVERGENCE BY VALUE
-//	  printf("CONVERGENCE TO ZERO BY VALUE - not by gradient ! \n");
-//	}
+	if (s->f == 0) {
+	  status = GSL_SUCCESS;  // ADITION BY SIMON TO CONTROL CONVERGENCE BY VALUE
+	  printf("CONVERGENCE TO ZERO BY VALUE - not by gradient ! \n");
+	}
       } else {
 	reldiff = fabs( (s->f - fprev) / fprev);
-//	if (reldiff < 1E-6) { 
-//	  status = GSL_SUCCESS;
-//	  printf("CONVERGENCE BY VALUE - not by gradient, as the GSL default ! \n");
-//	}
+	if (reldiff < 1E-8) { 
+	  status = GSL_SUCCESS;
+	  printf("CONVERGENCE BY VALUE - not by gradient, as the GSL default ! \n");
+	}
       }
     }
 
@@ -580,7 +581,7 @@ void conjgrad (double *xfree, int  *nelem, double *out, double *stepsize, double
       xfree[i] = gsl_vector_get (s->x, i);
     }
     
-  } while (status == GSL_CONTINUE && iter < 1007);
+  } while (status == GSL_CONTINUE && iter < 50);
   //  while (iter < 1000000);
 
   gsl_multimin_fdfminimizer_free (s);

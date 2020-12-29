@@ -19,6 +19,13 @@ no strict 'refs';
 #perl multimem.pl out_mem7_IRAC_H169_20160_l0_fix2/  20160 _IRAC _H169
 #perl multimem.pl out_clip_8800_fix3/ 8800 dochi2 
 
+#/home/simon/common/ROPH2/ATCA/mem/MemSky/out_mem7_20160_l0_fix3/
+
+
+#perl multimem.pl out_mem7_20160_l0_xcheck2020_dochi2/ 20160 dochi2
+#FINAL EXECUTION LINE FOR PAPER:
+#perl multimem.pl out_mem7_20160_l0_xcheck2020/ 20160 
+
 my $prior; my $data; my $kernel;  # SIGMA IS RMS NOISE 
 my $omega; my $fprior; my @residuals_global;
 my $globaldebug = 0;
@@ -431,6 +438,7 @@ my $pixsolidangle_inbeams;
 #	my $pix2 = ($$hrstor{CDELT2}**2); # WATCH OUT - hrstor for mistaken simul.pl
 	my $pix2 = ($$hraw{CDELT2}**2); # WATCH OUT - hrstor for mistaken simul.pl
 
+	print "resampling IRAC8um to ", $fieldref->{rstor}," \n";
 	$prior = &CelCoord::match($fieldref->{rstor}, $file_raw);
 	print "prior \n";
 #	&Vtools::view($prior);
@@ -450,6 +458,7 @@ my $pixsolidangle_inbeams;
 	open ALPHA, ">$outdir"."alpha.txt";
 	foreach my $ifield (0..$#labels) {
 	    my $fieldref = $datapass[$ifield];
+	    print "fieldref ",$fieldref->{image},"\n";
 	    my $ATCA = rfits($fieldref->{image});
 	    my $tagIRAC = '_IRAC';
 	    my $label = $labels[$ifield];
@@ -460,7 +469,6 @@ my $pixsolidangle_inbeams;
 	    my $weights0 = 1/rfits($fieldref ->{sens});
 	    $weights0 /= max($weights0);
 	    my $weights = $weights0 -> flat;
-	    print  "ANCHOR \n";
 	    print $weights -> info,"\n";
 	    my $vIRAC = $IRAC->flat;
 	    my $vATCA = $ATCA->flat;
@@ -578,7 +586,7 @@ my $pixsolidangle_inbeams;
 }
 
 sub mos {
-    my ($reffields, $refPBs, my $refsigmas, my $href ) = @_;
+    my ($reffields, $refPBs,  $refsigmas,  $href ) = @_;
 
     my @fields = @$reffields;
     my @PBs = @$refPBs;

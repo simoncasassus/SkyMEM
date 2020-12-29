@@ -33,13 +33,13 @@ pdl* haz_pdl(){
   pdl* t;
  
   int ndims;
-  PDL_Long *nelem;
-  PDL_Long *pdims;
+  PDL_Indx *nelem;
+  PDL_Indx *pdims;
 
   t = PDL->pdlnew();
   ndims = 1;
-  pdims = (PDL_Long *)  PDL->smalloc( (ndims) * sizeof(*pdims) );
-  pdims[0] = (PDL_Long) ene;
+  pdims = (PDL_Indx *)  PDL->smalloc( (ndims) * sizeof(*pdims) );
+  pdims[0] = (PDL_Indx) ene;
   PDL->setdims (t,pdims,ndims);
   t->datatype = PDL_D;
   PDL->allocdata (t);
@@ -60,13 +60,13 @@ pdl* haz_pdl(){
 //  SV* newref;
 //
 //  int ndims;
-//  PDL_Long *nelem;
-//  PDL_Long *pdims;
+//  PDL_Indx *nelem;
+//  PDL_Indx *pdims;
 //
 //  t = PDL->create(PDL_PERM);
 //  ndims = 1;
-//  pdims = (PDL_Long *)  PDL->smalloc( (ndims) * sizeof(*pdims) );
-//  pdims[0] = (PDL_Long) ene;
+//  pdims = (PDL_Indx *)  PDL->smalloc( (ndims) * sizeof(*pdims) );
+//  pdims[0] = (PDL_Indx) ene;
 //  PDL->setdims (t,pdims,ndims);
 //  t->datatype = PDL_D;
 //  PDL->allocdata (t);
@@ -392,7 +392,7 @@ void conjgrad (double *xfree, int  *nelem, double *out, double *stepsize, double
   double fprev = +1E30; // ADDITION BY SIMON TO CONTROL CONVERGENCE BY VALUE RATHER THAN GRADIENT
   double reldiff = 0; // ADDITION BY SIMON TO CONTROL CONVERGENCE BY VALUE RATHER THAN GRADIENT
 
-  printf ("IN TEST: nelem = %d \n", *nelem);
+  //printf ("IN TEST: nelem = %d \n", *nelem);
 //  for (i=0; i<*nelem; i++) {
 //    printf ("IN TEST: %g \n", xfree[i]);
 //  }
@@ -436,9 +436,9 @@ void conjgrad (double *xfree, int  *nelem, double *out, double *stepsize, double
   my_func.df = &my_df;
   my_func.fdf = &my_fdf;
 
- //  printf ("ANCHOR \n");
- //  printf ("IN TEST8: nelem = %d \n", *nelem);
- //
+  //  printf ("ANCHOR \n");
+  //  printf ("IN TEST8: nelem = %d \n", *nelem);
+  //
   //  my_func.n = *nelem;
   //my_func.params = *nelem;
 
@@ -448,59 +448,44 @@ void conjgrad (double *xfree, int  *nelem, double *out, double *stepsize, double
 
 
 
-  my_func.params = &par;
-
-//  printf ("ANCHOR \n");
-//  printf ("IN TEST9: nelem = %d \n", *nelem);
-//  printf ("nelem: %d \n", my_func.n);
-//  printf ("in conjgrad, input is \n");
-//  printf ("in conjgrad, input is \n");
-
-//  for (i=0; i< **nelem; i++) {
-//    //     printf ("%g", xfree[i]);
-//     printf ("%d ", i);
-//  }
-
-  printf ("ANCHOR \n");
-  printf ("IN TEST10: nelem = %d \n", *nelem);
+  my_func.params = par;
+  
+  //  printf ("nelem: %d \n", my_func.n);
+  //  printf ("in conjgrad, input is \n");
+  
+  //  for (i=0; i< **nelem; i++) {
+  //    //     printf ("%g", xfree[i]);
+  //     printf ("%d ", i);
+  //  }
 
 
 
-  printf ("IN TEST: nelem = %d \n", *nelem);
-//  for (i=0; i<*nelem; i++) {
-//   printf ("IN TEST: %g \n", xfree[i]);
-// }
+  //printf ("IN TEST: nelem = %d \n", *nelem);
+  //  for (i=0; i<*nelem; i++) {
+  //   printf ("IN TEST: %g \n", xfree[i]);
+  // }
 
 
-  //  printf ("in my_f, input is \n");
   for (i=0;i<*nelem; i++) {
     gsl_vector_set (x, i, xfree[i]);
   }
 
-  printf ("ANCHOR \n");
-  printf ("IN TEST11: nelem = %d \n", *nelem);
 
   //  T = gsl_multimin_fdfminimizer_conjugate_pr;
   T = gsl_multimin_fdfminimizer_conjugate_fr;
   s = gsl_multimin_fdfminimizer_alloc (T, *nelem);
   
-  printf ("ANCHOR \n");
-  printf ("IN TEST12: nelem = %d \n", *nelem);
 
   gsl_multimin_fdfminimizer_set (s, &my_func, x, *stepsize, *linmintol);
  
   // my_f (const gsl_vector *v, void *params)
 
 	  
-  printf ("ANCHOR \n");
-  printf ("IN TEST13: nelem = %d \n", *nelem);
   do {
 
 
 
     iter++;
-    //    printf ("ANCHOR \n");
-    //  printf ("IN TEST14: nelem = %d \n", *nelem);
 
     printf( "GSL FDF ITERATE \n");
     printf ("conjgrad active  params : stepsize %g linmintol %g gradtol %g \n", *stepsize, *linmintol, *gradtol); 
@@ -510,13 +495,13 @@ void conjgrad (double *xfree, int  *nelem, double *out, double *stepsize, double
 
     printf("done iterate\n");
     // from fdfminimizer.c :
-// int
-// gsl_multimin_fdfminimizer_iterate (gsl_multimin_fdfminimizer * s)
-// {
-//   return (s->type->iterate) (s->state, s->fdf, s->x, &(s->f), s->gradient, s->dx);
-// }
-// 
-// 
+    // int
+    // gsl_multimin_fdfminimizer_iterate (gsl_multimin_fdfminimizer * s)
+    // {
+    //   return (s->type->iterate) (s->state, s->fdf, s->x, &(s->f), s->gradient, s->dx);
+    // }
+    // 
+    // 
 
 
     //    printf( "GSL FDF ITERATE DONE, status %d \n",status);
