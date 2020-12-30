@@ -33,7 +33,8 @@ fieldref = {'image':sourcedirPSF+"/oph_"+reflabel+"."+freq+".fits",
 
 GaussPB=False
 pbcutoff=-1
-workdir='mem_l0_'+freq+'_ATCAtrial'
+#workdir='mem_l0_'+freq
+workdir='mem_l0_GSL_'+freq
 #workdir='mem_l0_'+freq
 PBextend=False
 if GaussPB:
@@ -54,8 +55,10 @@ M=SkyMEM.Setup(
     #scipy_optimize_method='Newton-CG',
     #scipy_optimize_method='L-BFGS-B',
     scipy_optimize_method='CG',
+    DoGSL=True,  ## broken in pygsl
+    DumpAllIters=True,
     View=False,
-    ViewInit=True,
+    ViewInit=False,
     VerboseInit=True,
     lambdaS=0)
 

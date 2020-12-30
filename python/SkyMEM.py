@@ -224,8 +224,7 @@ def dneglnlike(xfree):
     # my $I = &$aux($x);
     modelimage = restorematrix(xfree)
 
-    DumpAllIters=False
-    if DumpAllIters:
+    if ZM.DumpAllIters:
         fits.writeto(ZM.workdir+"MEM_"+str(ZM.iterdf)+".fits",modelimage,ZM.rstor_head,overwrite=True)
     #else:
     #    fits.writeto(ZM.workdir+"MEM_last.fits",modelimage,ZM.rstor_head,overwrite=True)
@@ -396,18 +395,35 @@ def run_pygsl_minimize(ZM):
     solver.set(start, 1., 1e-1)
     print( "Using solver ", solver.name() )
     print( "%5s %9s %9s  %9s %9s %9s" % ("iter", "x", "y", "f", "dx", "dy"))
+    fprev=0. # SIMON MODIF
     for iter in range(200):
         status = solver.iterate()
         gradient = solver.gradient()
         x = solver.getx()
         f = solver.getf()
+        
+        #SIMON MODIF START
+        normgradient=np.sqrt(np.sum(gradient**2)) 
+        if (fprev==0.):
+            if (f == 0.):
+                status=errno.GSL_SUCCESS
+                break
+        else:
+            reldiff = np.fabs( (f - fprev) / fprev)
+            print("normgradient",normgradient,"nelem",len(x),"f",f,"reldiff",reldiff)  #SIMON MODIF
+            if (reldiff < 1E-8):
+                status = errno.GSL_SUCCESS;
+                print("CONVERGENCE BY VALUE - not by gradient, as the GSL default ! \n")
+                break
+	### SIMON MODIF END
+
         status = multiminimize.test_gradient(gradient, 1e-2)
         if status == errno.GSL_SUCCESS:
             print( "Converged ")
         print( "%5d % .7f % .7f  % .7f % .7f % .7f" %(iter, x[0], x[1], f, gradient[0], gradient[1]))
         if status == errno.GSL_SUCCESS:
             break
-
+        fprev=f
     else:
         raise ValueError("Number of Iterations exceeded!")
 
@@ -464,6 +480,7 @@ class Setup():
                  DoGSL=False,  ## broken in pygsl
                  View=False, # view intermediate results
                  ViewInit=False, # view mosaic setup
+                 DumpAllIters=False
                  ):
         
         initlocals=locals()
