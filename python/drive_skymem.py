@@ -11,8 +11,8 @@ import SkyMEM
 freq='20160'
 #freq='39157'
 
-sourcedirPSF='/home/simon/common/ROPH2/ATCA/mem/MemSky/data_128/'
-sourcedir='/home/simon/common/ROPH2/ATCA/mem/MemSky/data_256/'
+sourcedirPSF='/home/simon/gitcommon/SkyMEM/example_data/data_128/'
+sourcedir='/home/simon/gitcommon/SkyMEM/example_data/data_256/'
 labels = ('1_1',  '1_2', '1_3',  '2_1', '2_2', '2_3')
 datapass = map(lambda alabel: {'image':sourcedir+'oph_'+alabel+'.'+freq+'.fits',
                               'psf':sourcedirPSF+'oph_'+alabel+'.'+freq+'.beam.fits',
@@ -22,7 +22,7 @@ datapass = map(lambda alabel: {'image':sourcedir+'oph_'+alabel+'.'+freq+'.fits',
 
 datapass=list(datapass)
 
-prior='/home/simon/common/ROPH2/ATCA/mem/MemSky/out_mem7_'+freq+'_l0_fix3/mod_in_prior.fits'
+prior='/home/simon/gitcommon/SkyMEM/example_data/mod_in_prior.fits'
 
 reflabel = '1_2'
 fieldref = {'image':sourcedirPSF+"/oph_"+reflabel+"."+freq+".fits",
