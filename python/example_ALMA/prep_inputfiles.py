@@ -106,6 +106,7 @@ def scaleprior(file_prior, workdir="./", basename_dirty_image=""):
     hdr['BMAJ']=hdr0['BMAJ']
     hdr['BMIN']=hdr0['BMIN']
     hdr['BPA']=hdr0['BPA']
+    hdr['BUNIT']=hdr0['Jy/beam']
     hdu[0].data=prior
     hdu[0].header=hdr
     file_prior_scaled = workdir+'prior.fits'
